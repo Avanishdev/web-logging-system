@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import fonts */
+@font-face {
+  font-family: "PrimaryFont";
+  src: url("./fonts/GeistMonoVF.woff") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SecondaryFont";
+  src: url("./fonts/GeistVF.woff") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Reset CSS */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  font-family: "PrimaryFont", sans-serif;
+  line-height: 1.5;
+  color: #333;
+  background-color: #f5f5f5;
+}
+
+/* Global styling for common components */
+button {
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+input,
+select,
+textarea,
+button {
+  font-family: "PrimaryFont", sans-serif;
+}
+
+/* Utility classes */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
