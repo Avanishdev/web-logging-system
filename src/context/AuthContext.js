@@ -75,6 +75,8 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
             console.error("Profile Update failed", error);
             setError("Failed to update profile. Please try again.");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -98,6 +100,8 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
             console.error("Logout failed", error);
             setError("Failed to log out. Please try again.");
+        } finally {
+            setLoading(false);
         }
     };
 

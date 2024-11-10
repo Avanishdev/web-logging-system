@@ -1,6 +1,23 @@
-export default function LogTable({ logs }) {
+'use client'
+import { useState } from "react";
+import AdditionalData from "./AdditionalData";
+import CreateLogButton from "./CreateLogButton";
+export default function LogTable({ logs, fetchLogs }) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedLog, setSelectedLog] = useState(null);
+
+    const handleRowClick = (log) => {
+        setSelectedLog(log);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedLog(null);
+    };
     return (
         <div className="w-full overflow-x-auto mt-4">
+            <CreateLogButton fetchLogs={fetchLogs} />
             <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-sm">
                 <thead className="bg-blue-100">
                     <tr>
@@ -16,6 +33,7 @@ export default function LogTable({ logs }) {
                             <tr
                                 key={log._id}
                                 className="hover:bg-gray-100 focus-within:bg-gray-100 even:bg-gray-50"
+                                onClick={() => handleRowClick(log)}
                             >
                                 <td className="p-3 text-gray-600 border-b border-gray-300">{log.actionType}</td>
                                 <td className="p-3 text-gray-600 border-b border-gray-300">
@@ -32,6 +50,18 @@ export default function LogTable({ logs }) {
                     )}
                 </tbody>
             </table>
+            {isModalOpen && (
+                <div
+                    onClick={(e) => {
+                        if (e.target === e.currentTarget) closeModal();
+                    }}
+                    className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+                >
+                    <div className="bg-white p-6 rounded shadow-md w-11/12 max-w-lg" onClick={(e) => e.stopPropagation()}>
+                        <AdditionalData onClose={closeModal} selectedLog={selectedLog} fetchLogs={fetchLogs} />
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

@@ -50,3 +50,11 @@ NEXT_PUBLIC_API_URL=http://localhost:8080
    ```
 
 2. The app should open automatically in your default browser at http://localhost:3000. If it doesn’t, you can manually open this URL in your browser.
+
+You can either signup and create a new user or use these credentials :-
+
+username - administrator
+password - admin123
+
+username - enduser
+password - user123

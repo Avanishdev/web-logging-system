@@ -6,9 +6,10 @@ import SearchFilter from '../../components/SearchFilter';
 import Pagination from '../../components/Pagination';
 import axios from 'axios';
 import { Spinner } from '../../components/Spinner';
-import { redirect } from 'next/navigation';
+import UpdateProfile from '../../components/UpdateProfile';
+import withAuth from '@/utils/withAuth';
 
-export default function DashboardPage() {
+function DashboardPage() {
     const { user, logout } = useContext(AuthContext);
     const [logs, setLogs] = useState([]);
     const [filters, setFilters] = useState({ actionType: "", startDate: "", endDate: "" });
@@ -16,6 +17,7 @@ export default function DashboardPage() {
     const [limit] = useState(10);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const fetchLogs = async () => {
         const token = localStorage.getItem("token");
@@ -57,13 +59,15 @@ export default function DashboardPage() {
         setPage(newPage);
     };
 
-    const handleUpdate = (e) => {
-        e.preventDefault();
-        redirect('/profile/update')
+    const handleUpdateClick = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
     };
 
     const handleLogout = (e) => {
-        e.preventDefault();
         logout();
     };
 
@@ -76,11 +80,22 @@ export default function DashboardPage() {
                 <div className="flex items-center space-x-4">
                     <span className="text-gray-700 font-medium">{user?.username}</span>
                     <button
-                        onClick={handleUpdate}
+                        onClick={handleUpdateClick}
                         className="px-4 py-2 bg-blue-500 text-white rounded"
                     >
                         Update
                     </button>
+                    {isModalOpen && (
+                        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+                            onClick={(e) => {
+                                if (e.target === e.currentTarget) closeModal();
+                            }}
+                        >
+                            <div className="bg-white p-6 rounded shadow-md w-11/12 max-w-lg">
+                                <UpdateProfile onClose={closeModal} />
+                            </div>
+                        </div>
+                    )}
                     <button
                         onClick={handleLogout}
                         className="px-4 py-2 bg-red-500 text-white rounded"
@@ -112,3 +127,5 @@ export default function DashboardPage() {
         </div>
     );
 }
+
+export default withAuth(DashboardPage);
